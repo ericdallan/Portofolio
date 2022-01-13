@@ -4,67 +4,73 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Member Premiumship</title>
+    <title>Bet Club Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <?php
     session_start();
     include_once("Koneksi.php");
+    if (isset($_GET['id_bet_club'])) {
+        $id = $_GET['id_bet_club'];
+    }
+    $query = "SELECT * FROM bet_club WHERE id_bet_club=$id";
+    $select = mysqli_query($Koneksi, $query);
+    $display = mysqli_fetch_assoc($select);
+
     ?>
 </head>
 
 <body style="background-color:rgba(0, 0, 0, 0.2);">
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-success justify-content-center">
-        <a class="navbar-brand" href="Home.php">Footballnesia</a>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-secondary justify-content-center">
+        <a class="navbar-brand" href="WebsiteData.php">Website Data</a>
     </nav>
-    <?php if (isset($_SESSION['message'])) : ?>
-        <div class="alert alert-danger alert-dismissible fade show fade in" role="alert" style="background-color: pink;">
-            <?= $_SESSION['message']; ?>
-            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true"></span>
-            </button>
-        </div>
-    <?php
-        unset($_SESSION['message']);
-    endif;
-    ?>
-    <?php if (isset($_SESSION['registered'])) : ?>
-        <div class="alert alert-danger alert-dismissible fade show fade in" role="alert" style="background-color: lightgreen;">
-            <?= $_SESSION['registered']; ?>
-            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true"></span>
-            </button>
-        </div>
-    <?php
-        unset($_SESSION['registered']);
-    endif;
-    ?>
     <br>
     <div class="card" style=" margin-left: 25% ; margin-right: 25%; background-color:white">
         <div class="card-body">
-            <h5 class="card-title" style="text-align: center;">Login Member Premiumship</h5>
+            <h5 class="card-title" style="text-align: center;">Bet Club Details</h5>
             <div class="card-text">
                 <hr width="100%">
-                <form action="LoginUser.php" method="POST" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="Email" class="form-label">Email</label>
-                        <input required type="email" class="form-control" id="Email" name="Email" placeholder="Masukkan alamat E-Mail" value="<?php if (isset($_COOKIE['cookieEmail'])) {
-                                                                                                                                                    echo $_COOKIE['cookieEmail'];
-                                                                                                                                                } ?>">
+                <form action="UpdateBetClub.php?id_bet_club=<?= $display['id_bet_club'] ?>" method="POST" enctype="multipart/form-data">
+                    <div class="row mb-3">
+                        <label for="Id_bet_club" class="col-sm-2 col-form-label" hidden>Id Bet Club</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="Id_bet_club" name="Id_bet_club" value="<?php echo $display['id_bet_club'] ?>" hidden>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="Password" class="form-label">Kata Sandi</label>
-                        <input required type="password" class="form-control" id="Password" name="Password" placeholder="Kata Sandi Anda" value="<?php if (isset($_COOKIE['cookiePass'])) {
-                                                                                                                                                    echo $_COOKIE['cookiePass'];
-                                                                                                                                                } ?>">
+                    <div class="row mb-3">
+                        <label for="club" class="col-sm-2 col-form-label">Club</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="Club" name="Club" value="<?php echo $display['club'] ?>" readonly>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="setcookie"><input type="checkbox" name="setcookie" value="true" id="setcookie" /> Remember Me</label>
+                    <div class="row mb-3">
+                        <label for="time" class="col-sm-2 col-form-label">Time</label>
+                        <div class="col-sm-10">
+                            <input type="time" class="form-control" id="time" name="time" value="<?php echo $display['time'] ?>" readonly>
+                        </div>
                     </div>
+                    <div class="row mb-3">
+                        <label for="inputHome" class="col-sm-2 col-form-label">Home</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name="inputHome" placeholder="2.1" step="any" id="inputHome" value="<?php echo $display['home'] ?>">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputDraw" class="col-sm-2 col-form-label">Draw</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name="inputDraw" placeholder="2.1" step="any" id="inputDraw" value="<?php echo $display['draw'] ?>">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputAway" class="col-sm-2 col-form-label">Away</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name="inputAway" placeholder="2.1" step="any" id="inputAway" value="<?php echo $display['away'] ?>">
+                        </div>
+                    </div>
+                    <hr width="100%">
                     <div class="text-center pt-2">
-                        <button type="submit" class="btn btn-primary" name="login">Login</button>
-                        <p class="mt-3">Doesn't have account ?<a href="RegisterUserAccountForm.php">Register</a></p>
+                        <button type="submit" class="btn btn-primary" name="Update">Create Bet Club</button>
                     </div>
                 </form>
             </div>
@@ -72,7 +78,7 @@
     </div>
     <br>
 </body>
-<footer class="text-white text-center text-lg-start bg-success">
+<footer class="text-white text-center text-lg-start bg-secondary">
     <div class="container p-4">
         <div class="row">
             <div class="col-lg-8 col-md-12 mb-4 mb-md-0">

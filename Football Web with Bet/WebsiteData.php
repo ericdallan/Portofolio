@@ -18,7 +18,7 @@
 
     // Untuk mengakses data table user
     $query4 = mysqli_query($Koneksi, "SELECT * FROM user");
-    
+
     // Untuk mengakses data table editor
     $query5 = mysqli_query($Koneksi, "SELECT * FROM editor");
 
@@ -36,6 +36,9 @@
 
     // Untuk mengakses data table article
     $query6 = mysqli_query($Koneksi, "SELECT * FROM article inner join editor on article.id_editor = editor.id_editor");
+
+    // Untuk mengakses data table bet club
+    $query7 = mysqli_query($Koneksi, "SELECT * FROM bet_club");
     ?>
 </head>
 
@@ -229,6 +232,48 @@
     </div>
     <br>
     <div style="margin-left: 10% ; margin-right: 10%; background-color:white">
+        <h3 class="text-center">Bet Club</h3>
+        <table id="Bet" class="table table-bordered mt-3 text-center">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Time</th>
+                    <th>Club</th>
+                    <th>Home</th>
+                    <th>Draw</th>
+                    <th>Away</th>
+                    <th colspan="2">Action</th>
+                </tr>
+            </thead>
+            <?php
+            $num = 0;
+            while ($row7 = mysqli_fetch_assoc($query7)) {
+                $num++;
+            ?>
+                <tbody>
+                    <tr>
+                        <td><?= $num ?></td>
+                        <td><?= $row7['time'] ?></td>
+                        <td><?= $row7['club'] ?></td>
+                        <td><?= $row7['home'] ?></td>
+                        <td><?= $row7['draw'] ?></td>
+                        <td><?= $row7['away'] ?></td>
+                        <td><a href="DeleteBetClub.php?id_bet_club=<?= $row7['id_bet_club'] ?>" class="btn btn-danger" name='delete'>Delete</a></td>
+                        <td><a href="UpdateBetClubForm.php?id_bet_club=<?= $row7['id_bet_club'] ?>" class="btn btn-success" name='update'>Update</a></td>
+                    </tr>
+                </tbody>
+            <?php } ?>
+            <tfoot>
+                <tr>
+                    <td colspan="8">
+                        <a href ="CreateBetClubForm.php"type="button" class="btn btn-primary">Create</a>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <br>
+    <div style="margin-left: 10% ; margin-right: 10%; background-color:white">
         <h3 class="text-center">Bet List</h3>
         <table id="Bet" class="table table-bordered mt-3 text-center">
             <thead>
@@ -297,7 +342,7 @@
                             <img src="payment/<?php echo $row3['gambar'] ?>" alt="" width="50px" height="50px">
                         </td>
                         <td><a href="DeletePayment.php?id_bet=<?= $row3['id_bet'] ?>" class="btn btn-danger" name='delete'>Delete</a></td>
-                        <td><a href="UpdateBetForm.php?id_bet=<?= $row2['id_bet'] ?>" class="btn btn-success" name='update'>Update</a></td>
+                        <td><a href="UpdateBetForm.php?id_bet=<?= $row3['id_bet'] ?>" class="btn btn-success" name='update'>Update</a></td>
                         <td><?= $row3['nama'] ?></td>
                     </tr>
                 </tbody>

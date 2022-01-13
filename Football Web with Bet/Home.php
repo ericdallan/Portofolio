@@ -99,7 +99,7 @@
                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Premium Content</a>
                     </li>
                 </ul>
-                <div class="d">
+                <div>
                     <button type="button me-2" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#LoginModal">Login</button>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegisterModal">Register</button>
                 </div>

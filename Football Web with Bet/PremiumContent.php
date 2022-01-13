@@ -25,6 +25,9 @@
     $query3 = "SELECT * FROM bet where id_user='$id'";
     $select3 = mysqli_query($Koneksi, $query3);
     $row3 = mysqli_num_rows($select3);
+
+    $query7 = mysqli_query($Koneksi, "SELECT * FROM bet_club");
+    $res = mysqli_query($Koneksi, "SELECT club FROM bet_club");
     ?>
 </head>
 
@@ -220,39 +223,33 @@
                         </ul>
                     </div>
                     <div class="card-body text-center">
-                        <table class="table table-hover">
+                        <table id="Bet" class="table table-bordered mt-3 text-center">
                             <thead>
                                 <tr>
-                                    <th scope="col">Time</th>
-                                    <th scope="col">Club</th>
-                                    <th scope="col">Home</th>
-                                    <th scope="col">Draw</th>
-                                    <th scope="col">Away</th>
+                                    <th>No</th>
+                                    <th>Time</th>
+                                    <th>Club</th>
+                                    <th>Home</th>
+                                    <th>Draw</th>
+                                    <th>Away</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <th>00:00</th>
-                                    <td>Manchester United vs Liverpool</td>
-                                    <td>5.35</td>
-                                    <td>2.05</td>
-                                    <td>2.50</td>
-                                </tr>
-                                <tr>
-                                    <th>01:00</th>
-                                    <td>Barcelona vs Real Madrid</td>
-                                    <td>3.40</td>
-                                    <td>2.40</td>
-                                    <td>2.40</td>
-                                </tr>
-                                <tr>
-                                    <th>02:30</th>
-                                    <td>Inter vs Juventus</td>
-                                    <td>4.50</td>
-                                    <td>3.40</td>
-                                    <td>4.25</td>
-                                </tr>
-                            </tbody>
+                            <?php
+                            $num = 0;
+                            while ($row7 = mysqli_fetch_assoc($query7)) {
+                                $num++;
+                            ?>
+                                <tbody>
+                                    <tr>
+                                        <td><?= $num ?></td>
+                                        <td><?= $row7['time'] ?></td>
+                                        <td><?= $row7['club'] ?></td>
+                                        <td><?= $row7['home'] ?></td>
+                                        <td><?= $row7['draw'] ?></td>
+                                        <td><?= $row7['away'] ?></td>
+                                    </tr>
+                                </tbody>
+                            <?php } ?>
                         </table>
                     </div>
                     <div class="card-footer">
@@ -271,10 +268,15 @@
                             <div class="modal-body">
                                 <form action="AddBet.php?id_user=<?= $row['id_user'] ?>" method="POST" enctype="multipart/form-data">
                                     <div class="row mb-3">
-                                        <label for="Nama" class="col-sm-2 col-form-label" hidden>Id user</label>
+                                        <label for="UserID" class="col-sm-2 col-form-label" hidden>Id user</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="UserID" name="UserID" value="<?php echo $row['id_user'] ?>" hidden>
                                         </div>
+                                        <label for="Id_bet_club" class="col-sm-2 col-form-label" hidden>Id Bet Club</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="Id_bet_club" name="Id_bet_club" value="<?php echo $display['id_bet_club'] ?>" hidden>
+                                        </div>
+                                        <label for="status" class="col-sm-2 col-form-label" hidden>Status</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="status" name="status" value="On Hold" hidden>
                                         </div>
@@ -283,9 +285,15 @@
                                         <label for="selectRegister" class="col-sm-2 col-form-label">List Club</label>
                                         <div class="col-sm-10">
                                             <select class="form-select" aria-label="Default select example" id="selectClub" name="selectClub">
-                                                <option value="Manchester United vs Liverpool">Manchester United vs Liverpool</option>
-                                                <option value="Barcelona vs Real Madrid">Barcelona vs Real Madrid</option>
-                                                <option value="Inter vs Juventus">Inter vs Juventus</option>
+                                                <?php
+                                                while ($row = mysqli_fetch_assoc($res)) {
+                                                ?>
+                                                    <option value="<?php echo ($row['club']) ?>">
+                                                        <?php echo ($row['club']) ?>
+                                                    </option>
+                                                <?php
+                                                }
+                                                ?>
                                             </select>
                                         </div>
                                     </div>
@@ -329,7 +337,8 @@
         <div style="margin-left: 10% ; margin-right: 10%; background-color:white">
             <?php if ($row3 == 0) : ?>
                 <div style="text-align:center">
-                    <br><h3>Belum Ada Bet</h3>
+                    <br>
+                    <h3>Belum Ada Bet</h3>
                     <div class="container bg-warning" style="width: 100%; height: 5px;"></div>
                     <p>Silahkan Menambahkan Bet</p>
                 </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3307
--- Waktu pembuatan: 05 Jan 2022 pada 18.41
+-- Waktu pembuatan: 07 Jan 2022 pada 15.11
 -- Versi server: 10.4.17-MariaDB
 -- Versi PHP: 8.0.2
 
@@ -67,7 +67,8 @@ CREATE TABLE `article` (
 INSERT INTO `article` (`id_article`, `id_editor`, `judul_article`, `penulis_article`, `tanggal_terbit`, `deskripsi`, `gambar`, `tag`, `bahasa`) VALUES
 (1, 1, 'Kemenangan Manchester United', 'Subagja Eric', '2021-12-30', 'Kemenangan Manchester United', '431987.jpg', 'Premier League', 'Indonesia'),
 (2, 1, 'Kekalahan Manchester United', 'Subagja Eric', '2021-12-31', 'United Mengalami Kekalahan', '528520.jpg', 'Premier League', 'Indonesia'),
-(3, 1, 'Manchester United ditahan imbang', 'Subagja Eric', '2021-12-29', 'Manchester United', '510612.jpg', 'Premier League', 'Indonesia');
+(3, 1, 'Manchester United ditahan imbang', 'Subagja Eric', '2021-12-29', 'Manchester United', '510612.jpg', 'Premier League', 'Indonesia'),
+(4, 1, 'Bingung', 'Subagja Eric', '2022-01-06', 'Bingung', '985579.jpg', 'Premier League', 'Indonesia');
 
 -- --------------------------------------------------------
 
@@ -91,8 +92,36 @@ CREATE TABLE `bet` (
 INSERT INTO `bet` (`id_bet`, `id_user`, `club`, `placed_bet`, `date`, `status`) VALUES
 (16, 2, 'Inter vs Juventus', 100, '2021-12-31', 'Proceed'),
 (17, 2, 'Barcelona vs Real Madrid', 290, '2021-12-31', 'Proceed'),
-(18, 1, 'Manchester United vs Liverpool', 560, '2022-01-26', 'On Hold'),
-(19, 1, 'Inter vs Juventus', 120, '2022-01-04', 'Proceed');
+(18, 1, 'Manchester United vs Liverpool', 560, '2022-01-26', 'Proceed'),
+(19, 1, 'Inter vs Juventus', 120, '2022-01-04', 'Proceed'),
+(21, 1, 'Chelsea vs Barcelona', 560, '2022-01-05', 'Proceed'),
+(22, 1, 'Liverpool vs Barcelona', 514, '2022-01-06', 'On Hold'),
+(23, 3, 'Manchester United vs Manchester City', 3120, '2022-01-06', 'Proceed');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `bet_club`
+--
+
+CREATE TABLE `bet_club` (
+  `id_bet_club` bigint(20) NOT NULL,
+  `club` varchar(255) NOT NULL,
+  `time` time NOT NULL,
+  `home` decimal(6,2) NOT NULL,
+  `draw` decimal(6,2) NOT NULL,
+  `away` decimal(6,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `bet_club`
+--
+
+INSERT INTO `bet_club` (`id_bet_club`, `club`, `time`, `home`, `draw`, `away`) VALUES
+(5, 'Manchester United vs Liverpool', '09:55:00', '5.20', '1.20', '3.20'),
+(6, 'Chelsea vs Barcelona', '14:11:00', '5.90', '1.10', '3.40'),
+(7, 'Manchester United vs Manchester City', '01:39:00', '4.10', '2.00', '1.40'),
+(8, 'Liverpool vs Barcelona', '02:46:00', '4.20', '0.30', '2.20');
 
 -- --------------------------------------------------------
 
@@ -135,7 +164,10 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`id_payments`, `id_bet`, `club`, `placed_bet`, `date`, `gambar`) VALUES
-(11, 19, 'Inter vs Juventus', 120, '2022-01-04', '839526.jpg');
+(11, 19, 'Inter vs Juventus', 120, '2022-01-04', '839526.jpg'),
+(12, 18, 'Manchester United vs Liverpool', 560, '2022-01-26', '629480.jpg'),
+(13, 21, 'Chelsea vs Barcelona', 560, '2022-01-05', '601208.jpg'),
+(14, 23, 'Manchester United vs Manchester City', 3120, '2022-01-06', '219609.jpg');
 
 -- --------------------------------------------------------
 
@@ -185,6 +217,12 @@ ALTER TABLE `bet`
   ADD KEY `id_user` (`id_user`);
 
 --
+-- Indeks untuk tabel `bet_club`
+--
+ALTER TABLE `bet_club`
+  ADD PRIMARY KEY (`id_bet_club`);
+
+--
 -- Indeks untuk tabel `editor`
 --
 ALTER TABLE `editor`
@@ -217,13 +255,19 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT untuk tabel `article`
 --
 ALTER TABLE `article`
-  MODIFY `id_article` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_article` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `bet`
 --
 ALTER TABLE `bet`
-  MODIFY `id_bet` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_bet` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT untuk tabel `bet_club`
+--
+ALTER TABLE `bet_club`
+  MODIFY `id_bet_club` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `editor`
@@ -235,7 +279,7 @@ ALTER TABLE `editor`
 -- AUTO_INCREMENT untuk tabel `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id_payments` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_payments` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
